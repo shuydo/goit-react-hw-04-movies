@@ -33,13 +33,11 @@ const App = () => (
       </li>
     </ul>
 
-    <hr />
-
     <Switch>
       <Route exact path="/" component={HomePage} />
-      <Route exact path="/movies" component={MoviesPage} />
-      {/* <Route path="/:movieId" component={MoviesDetailsPage} /> */}
-      <Route path="/movies/:movieId" component={MoviesDetailsPage} />
+      <Route path="/:movieId" component={MoviesDetailsPage} />
+      {/* <Route path="/movies/:movieId" component={MoviesDetailsPage} /> */}
+      <Route path="/movies" component={MoviesPage} />
       <Route component={NotFound} />
     </Switch>
   </>
