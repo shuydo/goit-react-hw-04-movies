@@ -1,32 +1,25 @@
-import { Component } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getTrendMovies } from "../js/api";
 
-const API_KEY = "2f8d6050c74d5f454a522d74a8cedbb8";
-const BASE_URL = "https://api.themoviedb.org/3/trending/movie/day";
-export default class Home extends Component {
-  state = { movies: [] };
+export default function Home() {
+  const [movies, setMovies] = useState([]);
 
   // const {url} = useRouteMatch();
+  useEffect(() => getTrendMovies().then(setMovies), []);
 
-  async componentDidMount() {
-    const resp = await axios.get(`${BASE_URL}?api_key=${API_KEY}&page=1`);
-    this.setState({ movies: resp.data.results });
-  }
+  return (
+    <>
+      <h1>Tranding today</h1>
 
-  render() {
-    return (
-      <>
-        <h1>Tranding today</h1>
-
-        <ul>
-          {this.state.movies.map(movie => (
+      <ul>
+        {movies &&
+          movies.map(movie => (
             <li key={movie.id}>
               <Link to={`movies/${movie.id}`}>{movie.title}</Link>
             </li>
           ))}
-        </ul>
-      </>
-    );
-  }
+      </ul>
+    </>
+  );
 }

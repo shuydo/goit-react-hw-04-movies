@@ -5,7 +5,7 @@ import Home from "./views/Home";
 import Authors from "./views/Authors";
 import Books from "./views/Books";
 import BookDetails from "./views/BookDetails";
-import NotFound from "./views/NotFound";
+import NotFound from "../NotFound";
 
 // console.log(BookDetails)
 

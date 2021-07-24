@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Component } from "react";
 import { Link, Route } from "react-router-dom";
-import Cast from "../Comps/Cast";
-import Reviews from "../Comps/Reviews";
+import Cast from "../../Comps/Cast";
+import Reviews from "../../Comps/Reviews";
 
 const API_KEY = "2f8d6050c74d5f454a522d74a8cedbb8";
 const BASE_URL = "https://api.themoviedb.org/3/";

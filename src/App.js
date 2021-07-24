@@ -1,5 +1,4 @@
-// import "./App.css";
-import { NavLink, Route, Switch } from "react-router-dom";
+import { NavLink, Route, Switch } from "react-router-dom"; // import "./App.css";
 
 import HomePage from "./views/HomePage";
 import MoviesPage from "./views/MoviesPage";
@@ -8,8 +7,6 @@ import NotFound from "./views/NotFound";
 
 const App = () => (
   <>
-    {/* <h1>Hello, Mary!</h1> */}
-
     <ul className="mainNavi">
       <li>
         <NavLink
@@ -38,7 +35,6 @@ const App = () => (
     <Switch>
       <Route exact path="/" component={HomePage} />
       <Route exact path="/movies" component={MoviesPage} />
-      {/* <Route path="/:movieId" component={MoviesDetailsPage} /> */}
       <Route path="/movies/:movieId" component={MoviesDetailsPage} />
       <Route component={NotFound} />
     </Switch>
