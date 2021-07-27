@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react"; // import { useEffect, useRef, useState } from "react";
+import { useEffect, useState} from "react";
+// import { useEffect, useState, useRef } from "react";
+
 import {
   Link,
   Route,
@@ -12,40 +14,38 @@ import { getMovieById } from "../js/api";
 import Cast from "../Comps/Cast";
 import Reviews from "../Comps/Reviews";
 
-export default function MoviesDetailsPage() {
+export default function MovieDetailsPage() {
+  // const routerState = useRef(null);
+  const { movieId } = useParams();
+  const { url, path } = useRouteMatch();
+  const location = useLocation();
+  console.log('location in MDP:',location)
+
+  const history = useHistory();
+  // console.log("history in MDP:", history.location.state.from.search);
+
+
   const [movie, setMovie] = useState(null);
 
-  const { movieId } = useParams();
-  const { url } = useRouteMatch();
-
   // const useGoBackToMoviesPage = () => {
-  //   console.log("in useGoBackToMoviesPage");
-  //   const routerState = useRef(null);
-  //   const location = useLocation();
-  //   console.log(location);
-  //   const history = useHistory();
-  //   useEffect(() => {
-  //     if (!routerState.current) routerState.current = location.state;
-  //   }, []);
-  //   const handleGoBack = () => {
-  //     const url = routerState.current ? `/?${routerState.current.params}` : "/";
-  //     history.push(url);
-  //   };
-  //   return { goBack: handleGoBack };
-  // };
 
-  // const { goBack } = useGoBackToMoviesPage;
+  // useEffect(() => {
+  //   if (!routerState.current) routerState.current = location.state;
+  // }, [location.state]);
+
+  const handleGoBack = () => {
+    // const url = routerState.current ? `/?${routerState.current.params}` : "/";
+    history.push(location?.state?.from ?? "/movies");
+    console.log('39:',location.state.from)
+  };
+  // return {goBack: handleGoBack,};};
   useEffect(() => getMovieById(movieId).then(setMovie), [movieId]);
-  // -----------------------------
-  const location = useLocation();
-  const history = useHistory();
-
-  const onGoBack = () => {
-    history.push(location?.state?.from ?? "/");
-  }; // ------------------------------
+  // const { goBack } = useGoBackToMoviesPage;
   return (
-    <>      {/* <button onClick={goBack}> */}
-      <button onClick={onGoBack}>Go Back</button>
+    <>
+      <button onClick={handleGoBack} style={{ marginBottom: "8px" }}>
+        Go Back
+      </button>
       {movie && (
         <div>
           <div className="movieMainInfo">
@@ -75,17 +75,17 @@ export default function MoviesDetailsPage() {
             Cast
           </Link>
 
-          <Route
-            path={`${url}/cast`}
+          <Route // path={`${url}/cast`}
+            path={`${path}/cast`}
             render={() => {
               return movieId && <Cast id={movieId} />;
             }}
           ></Route>
 
           <Link to={`${url}/reviews`}>Reviews</Link>
-          
-          <Route
-            path={`${url}/reviews`}
+
+          <Route // path={`${url}/reviews`}
+            path={`${path}/reviews`}
             render={() => {
               return movieId && <Reviews id={movieId} />;
             }}
@@ -96,3 +96,4 @@ export default function MoviesDetailsPage() {
     </>
   );
 }
+// This movie haven't reviews yet

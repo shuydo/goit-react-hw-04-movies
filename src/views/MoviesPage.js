@@ -1,29 +1,52 @@
-import { useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  Link,
+  useRouteMatch,
+  useLocation,
+  useHistory,
+  // Route,
+} from "react-router-dom";
 import { movieSearch } from "../js/api";
+// import MovieDetailsPage from "./MovieDetailsPage";
 
 export default function MoviesPage() {
   const [movies, setMovie] = useState(null);
   const { url } = useRouteMatch();
+  const history = useHistory();
+  const location = useLocation();
+  const query = new URLSearchParams(location.search).get("query");
+
+  useEffect(() => {
+    if (!query) return;
+    movieSearch(query).then(setMovie);
+  }, [query]);
 
   return (
     <>
       <form
         onSubmit={e => {
-          e.preventDefault(); //  как взять нужный ДОМ эл-т по тегу, а не поряд.номеру?
-          movieSearch(e.target.elements[0].value).then(setMovie);
-          e.target.elements[0].value = "";
+          e.preventDefault();
+          const query = e.target.elements.query.value;
+          history.push({ ...location, search: `query=${query}` });
+          e.target.elements.query.value = ""; // query.trim() === ''
         }}
       >
-        <input />
-        <button>Search</button>
+        <input name="query" />
+        <button style={{ marginLeft: "8px" }}>Search</button>
       </form>
 
       <ul>
         {movies &&
           movies.map(movie => (
             <li key={movie.id}>
-              <Link to={`${url}/${movie.id}`}>{movie.title}</Link>
+              <Link
+                to={{
+                  pathname: `${url}/${movie.id}`,
+                  state: { from: location },
+                }}
+              >
+                {movie.title}
+              </Link>
             </li>
           ))}
       </ul>
