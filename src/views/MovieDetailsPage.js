@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense, lazy } from "react";
 import {
   Link,
   Route,
@@ -9,8 +9,13 @@ import {
 } from "react-router-dom";
 
 import { getMovieById } from "../js/api";
-import Cast from "../Comps/Cast";
-import Reviews from "../Comps/Reviews";
+// import Cast from "../Comps/Cast";
+// import Reviews from "../Comps/Reviews";
+
+const Cast = lazy(() => import("../Comps/Cast" /* webpackChunkName: "Cast" */));
+const Reviews = lazy(() =>
+  import("../Comps/Reviews" /* webpackChunkName: "Reviews" */)
+);
 
 const useGoBackToMoviesPage = () => {
   const routerState = useRef(null);
@@ -67,26 +72,39 @@ export default function MovieDetailsPage() {
           <hr />
 
           <p>Addidional information</p>
+          <p> </p>
+          <Suspense fallback={<h1>Loading addInfo...</h1>}>
+            <ul className="addInf">
+              <li>
+                <p>
+                  <Link to={`${url}/cast`} style={{ marginRight: "25px" }}>
+                    Cast
+                  </Link>
+                </p>
 
-          <Link to={`${url}/cast`} style={{ marginRight: "25px" }}>
-            Cast
-          </Link>
+                <Route // change from {url}
+                  path={`${path}/cast`}
+                  render={() => {
+                    return movieId && <Cast id={movieId} />;
+                  }}
+                ></Route>
+              </li>
 
-          <Route // change from {url}
-            path={`${path}/cast`}
-            render={() => {
-              return movieId && <Cast id={movieId} />;
-            }}
-          ></Route>
+              <li>
+                <p>
+                  <Link to={`${url}/reviews`}>Reviews</Link>
+                </p>
 
-          <Link to={`${url}/reviews`}>Reviews</Link>
+                <Route // change from {url}
+                  path={`${path}/reviews`}
+                  render={() => {
+                    return movieId && <Reviews id={movieId} />;
+                  }}
+                ></Route>
+              </li>
+            </ul>
+          </Suspense>
 
-          <Route // change from {url}
-            path={`${path}/reviews`}
-            render={() => {
-              return movieId && <Reviews id={movieId} />;
-            }}
-          ></Route>
           <hr />
         </div>
       )}
