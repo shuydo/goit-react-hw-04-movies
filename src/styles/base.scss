@@ -1,7 +1,7 @@
-// a {
-  
-// }
-
+ul {
+  padding: 0;
+  margin: 0;
+}
 .mainNavi {
   display: flex;
   list-style: none;
@@ -10,7 +10,6 @@
 .NavLink {
   margin-right: 15px;
   text-decoration: none;
-
 }
 
 .NavLink--active {
@@ -24,16 +23,16 @@
 .movieTextInfo {
   margin-left: 15px;
 }
-.addInf{
+.addInf {
   list-style-type: disc;
 }
 .cast {
   display: flex;
   flex-wrap: wrap;
   list-style-type: none;
-  
 }
 
 .castItem {
-  width: 131px;
+  // width: 131px;
+  width: 125px;
 }

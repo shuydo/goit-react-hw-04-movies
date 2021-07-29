@@ -8,9 +8,8 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 
+import dummyImg from "../img/dummy.png";
 import { getMovieById } from "../js/api";
-// import Cast from "../Comps/Cast";
-// import Reviews from "../Comps/Reviews";
 
 const Cast = lazy(() => import("../Comps/Cast" /* webpackChunkName: "Cast" */));
 const Reviews = lazy(() =>
@@ -41,8 +40,13 @@ export default function MovieDetailsPage() {
   const { goBack } = useGoBackToMoviesPage();
 
   const [movie, setMovie] = useState(null);
+  let img = dummyImg;
 
   useEffect(() => getMovieById(movieId).then(setMovie), [movieId]);
+
+  if (movie && movie.img !== null)
+    img = `https://image.tmdb.org/t/p/w500${movie.img}`;
+
   return (
     <>
       <button onClick={goBack} style={{ marginBottom: "8px" }}>
@@ -51,11 +55,7 @@ export default function MovieDetailsPage() {
       {movie && (
         <div>
           <div className="movieMainInfo">
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movie.img}`}
-              alt=""
-              width="250"
-            ></img>
+            <img src={img} alt={movie.title} width="250"></img>
             <div className="movieTextInfo">
               <h2>{movie.title}</h2>
 
@@ -72,7 +72,7 @@ export default function MovieDetailsPage() {
           <hr />
 
           <p>Addidional information</p>
-          <p> </p>
+          {/* <p> </p> */}
           <Suspense fallback={<h1>Loading addInfo...</h1>}>
             <ul className="addInf">
               <li>
@@ -112,3 +112,4 @@ export default function MovieDetailsPage() {
   );
 }
 // This movie haven't reviews yet
+// No reviews for this movie yet ... ol

@@ -4,10 +4,8 @@ import {
   useRouteMatch,
   useLocation,
   useHistory,
-  // Route,
 } from "react-router-dom";
 import { movieSearch } from "../js/api";
-// import MovieDetailsPage from "./MovieDetailsPage";
 
 export default function MoviesPage() {
   const [movies, setMovie] = useState(null);
